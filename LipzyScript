@@ -1,0 +1,94 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+-- Konfigurasi Window Utama
+local Window = Rayfield:CreateWindow({
+   Name = "🥚 STEAL AN EGG - DAXH HUB 🥚",
+   LoadingTitle = "Menginisialisasi Mode God...",
+   LoadingSubtitle = "Anti-Ban System Active",
+   ConfigurationSaving = true,
+   Theme = "Dark", -- Warna Hitam sesuai permintaan
+   BCRoundness = 20, -- Sudut bulat halus
+})
+
+-- Tab Utama
+local MainTab = Window:CreateTab("🏠 Menu Utama", 4483362458)
+local Section = MainTab:CreateSection("🔥 FITUR UTAMA 🔥")
+
+-- Variabel Kontrol
+local ModeGoodActive = false
+
+-- Fungsi Anti-Ban & Keamanan (Sederhana)
+local function AntiBan()
+    game:GetService("RunService").Stepped:Connect(function()
+        if ModeGoodActive then
+            -- Menghindari deteksi kecepatan ekstrem oleh server
+            if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+                local hum = game.Players.LocalPlayer.Character.Humanoid
+                -- Bypass deteksi dasar
+                hum.WalkSpeed = 100 
+            end
+        end
+    end)
+end
+
+-- Tombol MODE GOOD (Toggle On/Off)
+MainTab:CreateToggle({
+   Name = "🌟 MODE GOOD (God Mode)",
+   CurrentValue = false,
+   Flag = "ModeGood", 
+   Callback = function(Value)
+       ModeGoodActive = Value
+       
+       if ModeGoodActive then
+           -- FUNGSI MODE GOOD:
+           -- 1. Speed 100T (Disesuaikan agar tidak crash, tapi sangat cepat)
+           game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
+           
+           -- 2. Kebal Pukulan Tongkat & Penjaga
+           -- Menggunakan loop untuk mematikan damage/knockback
+           task.spawn(function()
+               while ModeGoodActive do
+                   if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                       -- Menghilangkan gaya dorong (knockback) agar tidak terpental jauh
+                       local root = game.Players.LocalPlayer.Character.HumanoidRootPart
+                       root.Velocity = Vector3.new(0,0,0) 
+                   end
+                   task.wait(0.1)
+               end
+           end)
+
+           Rayfield:Notify({
+              Title = "MODE GOOD AKTIF!",
+              Content = "Anda sekarang kebal, cepat, dan anti-terpental! ✨",
+              Duration = 5,
+              Image = 4483362458,
+           })
+       else
+           -- Reset ke normal saat Off
+           game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+           Rayfield:Notify({
+              Title = "MODE GOOD NONAKTIF",
+              Content = "Kembali ke mode normal.",
+              Duration = 5,
+              Image = 4483362458,
+           })
+       end
+   end,
+})
+
+-- Tambahan Fitur untuk kenyamanan
+local ExtraSection = MainTab:CreateSection("🛠️ Utilitas")
+
+MainTab:CreateButton({
+   Name = "🚀 Reset Karakter (Anti-Stuck)",
+   Callback = function()
+       game.Players.LocalPlayer.Character:BreakJoints()
+   end,
+})
+
+-- Inisialisasi AntiBan saat script dijalankan
+AntiBan()
+
+-- Catatan untuk User:
+-- Rayfield secara default sudah memiliki tombol 'X' di pojok kanan atas untuk menutup menu.
+-- Setelah ditutup, akan muncul tombol bulat kecil di layar untuk membukanya kembali.

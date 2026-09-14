@@ -1,2 +1,0 @@
-# LipzyScript
-WELCOME
