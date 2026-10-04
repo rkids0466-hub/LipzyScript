@@ -1,4 +1,4 @@
--- [[ OBFUSCATED / SENSORED LUA SCRIPT ]] --
+-- [[ OBFUSCATED / SCRIPT BY LIPZY ]] --
 local _ENV = getfenv()
 local _b = string.byte
 local _c = string.char
